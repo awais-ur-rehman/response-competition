@@ -1,0 +1,27 @@
+# Project specific
+.claude/
+.venv/
+__pycache__/
+.env
+.DS_Store
+
+# Archives and Docs
+*.zip
+*.md
+!README.md
+
+# Datasets
+The Truman Show - train/
+The Truman Show - validation/
+Brave New World - train/
+Brave New World - validation/
+Deus Ex - train/
+Deus Ex - validation/
+
+# Results and logs
+flagged_transactions.txt
+flagged_transactions_review.csv
+current_session.txt
+source_code.zip
+all_source_code.txt
+*.log

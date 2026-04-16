@@ -1,0 +1,8 @@
+python-dotenv
+pandas
+tqdm
+langfuse
+ulid-py
+langchain
+langchain-openai
+openai
