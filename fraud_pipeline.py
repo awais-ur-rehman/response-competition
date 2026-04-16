@@ -69,9 +69,9 @@ def _build_sender_baselines(tx_df: pd.DataFrame, users_list: list) -> dict:
     for u in users_list:
         iban = u.get("iban")
         salary = float(u.get("salary") or 0)
-        monthly_cap = (salary / 12) * 0.10 # 10% of monthly salary as a safe baseline
+        monthly_cap = (salary / 12) * 0.30 # 30% of monthly salary as a safe baseline
         if iban not in baselines or len(amounts.get(iban, [])) < 3:
-            baselines[iban] = max(baselines.get(iban, 50.0), monthly_cap, 50.0)
+            baselines[iban] = max(baselines.get(iban, 100.0), monthly_cap, 100.0)
             
     return baselines
 
@@ -256,8 +256,11 @@ def run_pipeline(dataset_dir: str, output_file: str) -> None:
                 skipped_green += 1
             elif triage_score == "YELLOW":
                 # Change 3: High-value YELLOW escalates to Agent
-                if amount >= 200:
-                    tqdm.write(f"  ESCALATING YELLOW [€{amount:.2f} >= €200]: {tx.get('transaction_id')}")
+                # Adaptive: Only escalate if amount is exceptional for THIS user
+                baseline = sender_baselines.get(sender_iban, 100.0)
+                hv_threshold = max(500.0, 5 * baseline)
+                if amount >= hv_threshold:
+                    tqdm.write(f"  ESCALATING YELLOW [€{amount:.2f} >= €{hv_threshold:.1f}]: {tx.get('transaction_id')}")
                     pass # Continue to agent
                 else:
                     should_skip = True

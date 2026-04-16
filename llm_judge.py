@@ -45,12 +45,14 @@ unless you want to verify a specific detail.
 
 Make at most 2-3 additional tool calls, then stop and output your verdict.
 
-## Fraud signal hierarchy
-- STRONG: Recipient uses multiple IBANs (account redirection)
-- STRONG: Homoglyph-domain phishing (e.g. paypa1, amaz0n) within 7 days
-- MEDIUM: Urgency+url phishing within 3 days
-- MEDIUM: Amount anomalous vs user baseline
-- WEAK: Off-hours + another signal
+## Contextual Skepticism (High-Volume Datasets)
+You are analyzing datasets with thousands of transactions. In this environment:
+- **Novel Merchants** and **High Amounts** can be legitimate (e.g., travel, electronics, business expenses).
+- Do NOT flag FRAUD based on a novel merchant or high amount ALONE.
+- Reaching a FRAUD verdict with a confidence > 0.8 requires a **smoking gun**:
+    1. Recipient IBAN instability (account redirection).
+    2. Strong phishing match (homoglyph/urgency) within the critical window.
+    3. Severe location mismatch (e.g., ATM withdrawal in another country).
 
 ## Output format (REQUIRED)
 When done investigating, your FINAL message must be exactly this JSON and nothing else:

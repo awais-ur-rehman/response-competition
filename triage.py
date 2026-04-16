@@ -114,9 +114,9 @@ def get_triage_score(
         reasons.append(f"Novel merchant {rid} (€{amount:.2f})")
 
     # 5. High amount signal → YELLOW
-    is_high_amount = amount > 2 * user_baseline and amount > 100
+    is_high_amount = amount > 3 * user_baseline and amount > 200
     if is_high_amount:
-        reasons.append(f"Anomalous amount €{amount:.2f} (>2x baseline €{user_baseline:.2f})")
+        reasons.append(f"Anomalous amount €{amount:.2f} (>3x baseline €{user_baseline:.2f})")
 
     # 6. Phishing proximity
     #    Stricter rule: Solo phishing is YELLOW. 
